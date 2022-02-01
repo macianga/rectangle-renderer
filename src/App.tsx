@@ -8,9 +8,15 @@ import {getBoundingBox, getContrastColor} from "./utils/utils";
 function App() {
   const [projectIdInput, setProjectIdInput] = useState("")
   const [project, setProject] = useState<ProjectRootType>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const buttonClicked = async () => {
-    setProject(await fetchProjectDetails(projectIdInput));
+    setIsLoading(true);
+    const {respOk, project} = await fetchProjectDetails(projectIdInput);
+    if(respOk){
+      setProject(project);
+    }
+    setIsLoading(false);
   }
 
   const getBoundingBoxComponent = (rect: RectangleType) => {
@@ -47,6 +53,11 @@ function App() {
         </button>
       </div>
       <hr/>
+      {isLoading &&
+          <div>
+              <div className="lds-dual-ring"/>
+          </div>
+      }
       {
         project?.project && (
           <div>
