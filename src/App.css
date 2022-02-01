@@ -31,6 +31,14 @@ body{
     display: block;
 }
 
+.center{
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+
 .lds-dual-ring {
     display: block;
     width: 80px;
