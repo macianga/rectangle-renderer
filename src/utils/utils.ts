@@ -19,25 +19,26 @@ const rotate_point = (x, y, cx, cy, angle) => {
 }
 
 export const getBoundingBox = (rect: RectangleType): RectangleType => {
-  const points = [
+  const corners = [
     {x: rect.x - rect.width / 2, y: rect.y - rect.height / 2},
     {x: rect.x - rect.width / 2, y: rect.y + rect.height / 2},
     {x: rect.x + rect.width / 2, y: rect.y - rect.height / 2},
     {x: rect.x + rect.width / 2, y: rect.y + rect.height / 2},
   ]
 
-  const pointsTranslated = points.map((point) => rotate_point(point.x, point.y, rect.x, rect.y, rect.rotation))
-  const maxX = Math.max(...pointsTranslated.map((p)=>p.x))
-  const maxY = Math.max(...pointsTranslated.map((p)=>p.y))
-  const minX = Math.min(...pointsTranslated.map((p)=>p.x))
-  const minY = Math.min(...pointsTranslated.map((p)=>p.y))
+  const pointsTranslated = corners.map((point) =>
+    rotate_point(point.x, point.y, rect.x, rect.y, rect.rotation))
+  const maxX = Math.max(...pointsTranslated.map((p) => p.x))
+  const maxY = Math.max(...pointsTranslated.map((p) => p.y))
+  const minX = Math.min(...pointsTranslated.map((p) => p.x))
+  const minY = Math.min(...pointsTranslated.map((p) => p.y))
 
   const width = maxX - minX;
   const height = maxY - minY;
 
   return {
-    x: minX + width/2,
-    y: minY + height/2,
+    x: minX + width / 2,
+    y: minY + height / 2,
     width: width,
     height: height,
     rotation: 0,
