@@ -6,24 +6,23 @@ import React, {Fragment} from 'react';
 import {getBoundingBox, getContrastColor, validateProjectData} from "./utils/utils";
 
 function App() {
-  const [projectIdInput, setProjectIdInput] = useState("cklzhx7e80001py9kcql231z3-4748779261984095")
+  const [projectIdInput, setProjectIdInput] = useState("")
   const [project, setProject] = useState<ProjectRootType>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("")
 
   const fetchProject = async () => {
     setIsLoading(true);
-    const [responseOk, response, error] = await fetchProjectDetails(projectIdInput);
-    console.log(responseOk, response, error)
+    const [responseOk, projectData, error] = await fetchProjectDetails(projectIdInput);
 
     if(responseOk){
-      const isDataValid = validateProjectData(response);
+      const isDataValid = validateProjectData(projectData);
       if(!isDataValid){
         setError("Invalid project data.")
         setIsLoading(false);
         return;
       }
-      setProject(response);
+      setProject(projectData);
       setError("")
     }else{
       setError(error.message)

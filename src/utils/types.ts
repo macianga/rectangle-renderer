@@ -1,6 +1,6 @@
 export type ProjectRootType = {
-  id: string;
-  project: ProjectType;
+  id?: string;
+  project?: ProjectType;
 }
 
 export type ProjectType = {
