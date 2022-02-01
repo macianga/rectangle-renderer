@@ -4,7 +4,14 @@ const BASE_URL = "https://recruitment01.vercel.app/api";
 const INIT_PROJECT_URL = `${BASE_URL}/init`
 const PROJECT_URL = (id: string) => `${BASE_URL}/project/${id}`
 
-type apiResponse<ResponseSchema> = Promise<[responseOk: boolean, resp: ResponseSchema]>
+type apiErrorType = {
+  error: number,
+  message: string,
+}
+
+type apiResponse<ResponseSchema> = Promise<[responseOk: boolean, resp?: ResponseSchema, error?: apiErrorType]>
+
+
 
 export const fetchProjectDetails = async (id: string = ""): apiResponse<ProjectRootType> => {
   if(!id){
@@ -15,7 +22,18 @@ export const fetchProjectDetails = async (id: string = ""): apiResponse<ProjectR
   }
   const response = await fetch(PROJECT_URL(id))
 
-  return [response.ok, response.ok ? (await response.json()): {}];
+  //workaround: inconsistent api error responses
+  if(response.status !== 200){
+    const body = await response.text();
+    try{
+      return [false, {}, await JSON.parse(body)]
+    }catch(e){
+      console.error(e);
+      return [false, {}, {error: 0, message: body}]
+    }
+  }
+
+  return [response.ok, await response.json()];
 }
 
 export const fetchInitProject = async(): apiResponse<ProjectInitType> => {

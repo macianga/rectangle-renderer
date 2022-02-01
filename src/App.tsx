@@ -6,15 +6,21 @@ import React, {Fragment} from 'react';
 import {getBoundingBox, getContrastColor} from "./utils/utils";
 
 function App() {
-  const [projectIdInput, setProjectIdInput] = useState("")
+  const [projectIdInput, setProjectIdInput] = useState("cklzhx7e80001py9kcql231z3-4748779261984095")
   const [project, setProject] = useState<ProjectRootType>();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("")
 
   const buttonClicked = async () => {
     setIsLoading(true);
-    const [responseOk, project] = await fetchProjectDetails(projectIdInput);
+    const [responseOk, response, error] = await fetchProjectDetails(projectIdInput);
+    console.log(responseOk, response, error)
+
     if(responseOk){
-      setProject(project);
+      setProject(response);
+      setError("")
+    }else{
+      setError(error.message)
     }
     setIsLoading(false);
   }
@@ -55,8 +61,9 @@ function App() {
       </div>
       <hr/>
       {isLoading && <div className="lds-dual-ring"/>}
+      {!isLoading && error && <h3 className="center">Cos poszlo nie tak: <b>{error}</b></h3>}
       {
-        project?.project && !isLoading && (
+        project?.project && !isLoading && !error && (
           <div>
             <div className="info-section">
               <span style={{display: "block"}}>Name: <b>{project.project.name}</b></span>
