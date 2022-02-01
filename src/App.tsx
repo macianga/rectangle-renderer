@@ -11,7 +11,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("")
 
-  const buttonClicked = async () => {
+  const fetchProject = async () => {
     setIsLoading(true);
     const [responseOk, response, error] = await fetchProjectDetails(projectIdInput);
     console.log(responseOk, response, error)
@@ -54,7 +54,7 @@ function App() {
           placeholder="For random leave empty :)"
         />
         <button
-          onClick={buttonClicked}
+          onClick={fetchProject}
           disabled={isLoading}
         >Fetch
         </button>
