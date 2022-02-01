@@ -64,7 +64,7 @@ function App() {
         </button>
       </div>
       <hr/>
-      {isLoading && <div className="lds-dual-ring"/>}
+      {isLoading && <div className="loader"/>}
       {!isLoading && error && <h3 className="center">Cos poszlo nie tak: <b>{error}</b></h3>}
       {
         project?.project && !isLoading && !error && (
