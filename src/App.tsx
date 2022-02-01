@@ -1,6 +1,6 @@
 import './App.css'
-import {useEffect, useState} from "react";
-import {fetchInitProject, fetchProjectDetails} from "./utils/apiHelpers";
+import {useState} from "react";
+import {fetchProjectDetails} from "./utils/apiHelpers";
 import {ProjectRootType, RectangleType} from "./utils/types";
 import React, {Fragment} from 'react';
 import {getBoundingBox, getContrastColor} from "./utils/utils";
