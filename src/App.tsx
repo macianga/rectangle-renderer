@@ -13,7 +13,6 @@ function App() {
 
   const buttonClicked = () => {
     console.log("asd");
-    //translate(${-rect.width / 2}, ${-rect.height / 2})
   }
 
   return (
@@ -33,7 +32,12 @@ function App() {
         >Fetch
         </button>
       </div>
-      <svg className="svg-rectangles" style={{width: project.project.width, height: project.project.height}}>
+      <hr/>
+      <div className="info-section">
+        <span style={{display: "block"}}>Name: <b>{project.project.name}</b></span>
+        <span style={{display: "block"}}>ID: <b>{project.project.id}</b></span>
+      </div>
+      <svg className="svg-container" style={{width: project.project.width, height: project.project.height}}>
         {
           project.project.items?.map((rect) => {
             return (
