@@ -1,18 +1,15 @@
 import './App.css'
 import {useEffect, useState} from "react";
-import {getProject} from "./utils/apiHelpers";
+import {fetchInitProject, fetchProjectDetails} from "./utils/apiHelpers";
+import {ProjectRootType} from "./utils/types";
+import React, { Fragment } from 'react';
 
 function App() {
   const [projectIdInput, setProjectIdInput] = useState("")
-  const [project, setProject] = useState(getProject());
+  const [project, setProject] = useState<ProjectRootType>();
 
-
-  useEffect(() => {
-    // console.log(project.project.items)
-  }, [])
-
-  const buttonClicked = () => {
-    console.log("asd");
+  const buttonClicked = async () => {
+    setProject(await fetchProjectDetails(projectIdInput));
   }
 
   return (
@@ -33,32 +30,37 @@ function App() {
         </button>
       </div>
       <hr/>
-      <div className="info-section">
-        <span style={{display: "block"}}>Name: <b>{project.project.name}</b></span>
-        <span style={{display: "block"}}>ID: <b>{project.project.id}</b></span>
-      </div>
-      <svg className="svg-container" style={{width: project.project.width, height: project.project.height}}>
-        {
-          project.project.items?.map((rect) => {
-            return (
-              <>
-                <rect
-                  key={rect.id}
-                  x={rect.x - rect.width/2}
-                  y={rect.y - rect.height/2}
-                  width={rect.width}
-                  height={rect.height}
-                  style={{fill: rect.color}}
-                  transform={`rotate(${rect.rotation} ${rect.x} ${rect.y})`}
-                />
-                <ellipse key={rect.id + "e"} cx={rect.x} cy={rect.y} rx={5} ry={5} style={{fill: "blue"}}/>
-                <text key={rect.id + "t"} x={rect.x + 5} y={rect.y - 5} className="small">{rect.rotation}°</text>
-              </>
-            )
+      {
+        project?.project && (
+          <div>
+            <div className="info-section">
+              <span style={{display: "block"}}>Name: <b>{project.project.name}</b></span>
+              <span style={{display: "block"}}>ID: <b>{project.project.id}</b></span>
+            </div>
+            <svg className="svg-container" style={{width: project.project.width, height: project.project.height}}>
+              {
+                project.project.items?.map((rect) => {
+                  return (
+                    <Fragment key={rect.id}>
+                      <rect
+                        x={rect.x - rect.width / 2}
+                        y={rect.y - rect.height / 2}
+                        width={rect.width}
+                        height={rect.height}
+                        style={{fill: rect.color}}
+                        transform={`rotate(${rect.rotation} ${rect.x} ${rect.y})`}
+                      />
+                      <ellipse cx={rect.x} cy={rect.y} rx={5} ry={5} style={{fill: "blue"}}/>
+                      <text x={rect.x + 5} y={rect.y - 5} className="small">{rect.rotation}°</text>
+                    </Fragment>
+                  )
 
-          })
-        }
-      </svg>
+                })
+              }
+            </svg>
+          </div>
+        )
+      }
     </div>
   )
 }
