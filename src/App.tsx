@@ -3,7 +3,7 @@ import {useState} from "react";
 import {fetchProjectDetails} from "./utils/apiHelpers";
 import {ProjectRootType, RectangleType} from "./utils/types";
 import React, {Fragment} from 'react';
-import {getBoundingBox, getContrastColor} from "./utils/utils";
+import {getBoundingBox, getContrastColor, validateProjectData} from "./utils/utils";
 
 function App() {
   const [projectIdInput, setProjectIdInput] = useState("cklzhx7e80001py9kcql231z3-4748779261984095")
@@ -17,6 +17,12 @@ function App() {
     console.log(responseOk, response, error)
 
     if(responseOk){
+      const isDataValid = validateProjectData(response);
+      if(!isDataValid){
+        setError("Invalid project data.")
+        setIsLoading(false);
+        return;
+      }
       setProject(response);
       setError("")
     }else{
