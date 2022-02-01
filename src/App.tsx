@@ -12,8 +12,8 @@ function App() {
 
   const buttonClicked = async () => {
     setIsLoading(true);
-    const {ok, project} = await fetchProjectDetails(projectIdInput);
-    if(ok){
+    const [responseOk, project] = await fetchProjectDetails(projectIdInput);
+    if(responseOk){
       setProject(project);
     }
     setIsLoading(false);
