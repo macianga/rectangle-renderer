@@ -12,8 +12,8 @@ function App() {
 
   const buttonClicked = async () => {
     setIsLoading(true);
-    const {respOk, project} = await fetchProjectDetails(projectIdInput);
-    if(respOk){
+    const {ok, project} = await fetchProjectDetails(projectIdInput);
+    if(ok){
       setProject(project);
     }
     setIsLoading(false);
@@ -49,17 +49,14 @@ function App() {
         />
         <button
           onClick={buttonClicked}
+          disabled={isLoading}
         >Fetch
         </button>
       </div>
       <hr/>
-      {isLoading &&
-          <div>
-              <div className="lds-dual-ring"/>
-          </div>
-      }
+      {isLoading && <div className="lds-dual-ring"/>}
       {
-        project?.project && (
+        project?.project && !isLoading && (
           <div>
             <div className="info-section">
               <span style={{display: "block"}}>Name: <b>{project.project.name}</b></span>

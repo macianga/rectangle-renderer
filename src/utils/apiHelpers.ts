@@ -6,8 +6,8 @@ const PROJECT_URL = (id: string) => `${BASE_URL}/project/${id}`
 
 export const fetchProjectDetails = async (id: string = ""): Promise<{ok: boolean, project: ProjectRootType}> => {
   if(!id){
-    const {respOk, project} = (await fetchInitProject());
-    if(respOk){
+    const {ok, project} = (await fetchInitProject());
+    if(ok){
       id = project.id;
     }
   }
