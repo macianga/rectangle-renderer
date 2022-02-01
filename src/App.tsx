@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {fetchInitProject, fetchProjectDetails} from "./utils/apiHelpers";
 import {ProjectRootType} from "./utils/types";
 import React, { Fragment } from 'react';
+import {getContrastColor} from "./utils/utils";
 
 function App() {
   const [projectIdInput, setProjectIdInput] = useState("")
@@ -50,8 +51,20 @@ function App() {
                         style={{fill: rect.color}}
                         transform={`rotate(${rect.rotation} ${rect.x} ${rect.y})`}
                       />
-                      <ellipse cx={rect.x} cy={rect.y} rx={5} ry={5} style={{fill: "blue"}}/>
-                      <text x={rect.x + 5} y={rect.y - 5} className="small">{rect.rotation}°</text>
+                      <ellipse
+                        cx={rect.x}
+                        cy={rect.y}
+                        rx={5}
+                        ry={5}
+                        style={{fill: getContrastColor(rect.color)}}
+                      />
+                      <text
+                        x={rect.x + 5}
+                        y={rect.y - 5}
+                        style={{fill: getContrastColor(rect.color)}}
+                      >
+                        {rect.rotation}°
+                      </text>
                     </Fragment>
                   )
 
