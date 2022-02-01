@@ -37,7 +37,7 @@ function App() {
               <span style={{display: "block"}}>Name: <b>{project.project.name}</b></span>
               <span style={{display: "block"}}>ID: <b>{project.project.id}</b></span>
             </div>
-            <svg className="svg-container" style={{width: project.project.width, height: project.project.height}}>
+            <svg className="svg-container" viewBox={`0 0 ${project.project.width} ${project.project.height}`}>
               {
                 project.project.items?.map((rect) => {
                   return (
