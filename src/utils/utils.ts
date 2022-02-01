@@ -1,6 +1,6 @@
 import {PointType, ProjectRootType, RectangleType} from "./types";
 
-const rotate_point = (point:PointType, centerPoint: PointType, angle: number): PointType => {
+const rotate_point = (point: PointType, centerPoint: PointType, angle: number): PointType => {
   const sinVal = Math.sin(angle * (Math.PI / 180));
   const cosVal = Math.cos(angle * (Math.PI / 180));
 
@@ -27,7 +27,7 @@ export const getBoundingBox = (rect: RectangleType): RectangleType => {
   ]
 
   const pointsTranslated = rectangleCorners.map((point) =>
-    rotate_point(point, {x:rect.x, y:rect.y}, rect.rotation))
+    rotate_point(point, {x: rect.x, y: rect.y}, rect.rotation))
 
   const maxX = Math.max(...pointsTranslated.map((p) => p.x))
   const maxY = Math.max(...pointsTranslated.map((p) => p.y))
@@ -73,16 +73,16 @@ export const getContrastColor = (color: string): string => {
   return (rgbColor.r * 0.299 + rgbColor.g * 0.587 + rgbColor.b * 0.114) > 186 ? darkColor : lightColor;
 }
 
-export const validateProjectData = (data: ProjectRootType): boolean =>{
-  if(!data.id) return false;
-  if(!data.project) return false;
+export const validateProjectData = (data: ProjectRootType): boolean => {
+  if (!data.id) return false;
+  if (!data.project) return false;
   const project = data.project;
-  if(!project.id) return false;
-  if(!project.name) return false;
-  if(project.width <= 0 || project.height <= 0) return false
-  if(!project.items?.length) return false;
+  if (!project.id) return false;
+  if (!project.name) return false;
+  if (project.width <= 0 || project.height <= 0) return false
+  if (!project.items?.length) return false;
   const items = project.items;
-  return items.every((rect)=>{
+  return items.every((rect) => {
     return rect.id && rect.height >= 0 && rect.width >= 0 && rect.color && rect.rotation > 0;
   })
 }

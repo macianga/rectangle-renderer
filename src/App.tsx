@@ -1,8 +1,7 @@
 import './App.css'
-import {useState} from "react";
+import React, {Fragment, useState} from "react";
 import {fetchProjectDetails} from "./utils/apiHelpers";
 import {ProjectRootType, RectangleType} from "./utils/types";
-import React, {Fragment} from 'react';
 import {getBoundingBox, getContrastColor, validateProjectData} from "./utils/utils";
 
 function App() {
@@ -15,16 +14,16 @@ function App() {
     setIsLoading(true);
     const [responseOk, projectData, error] = await fetchProjectDetails(projectIdInput);
 
-    if(responseOk){
+    if (responseOk) {
       const isDataValid = validateProjectData(projectData);
-      if(!isDataValid){
+      if (!isDataValid) {
         setError("Invalid project data.")
         setIsLoading(false);
         return;
       }
       setProject(projectData);
       setError("")
-    }else{
+    } else {
       setError(error.message)
     }
     setIsLoading(false);
