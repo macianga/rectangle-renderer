@@ -9,3 +9,17 @@
 
 body{
 }
+
+.input-section{
+    padding-top: 1rem;
+    padding-left: 1rem;
+}
+
+.input-description{
+    margin-right: 1rem;
+}
+
+.svg-rectangles{
+    height: 90%;
+    width: 100%;
+}
