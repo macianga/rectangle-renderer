@@ -1,25 +1,8 @@
-type ProjectRoot = {
-  id: string;
-  project: Project;
-}
-type Project = {
-  id: string;
-  name: string;
-  width: number;
-  height: number;
-  items?: (RectangleEntity)[] | null;
-}
-type RectangleEntity = {
-  id: string;
-  color: string;
-  rotation: number;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
+import {ProjectRoot} from "./types";
 
-export type Rectangle = RectangleEntity
+const BASE_URL = "https://recruitment01.vercel.app/api";
+const INIT_PROJECT_URL = `${BASE_URL}/init`
+const PROJECT_URL = (id: string) => `${BASE_URL}/project/${id}`
 
 export const getProject = (): ProjectRoot => {
   // console.log("got project");
