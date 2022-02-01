@@ -12,22 +12,21 @@ type apiErrorType = {
 type apiResponse<ResponseSchema> = Promise<[responseOk: boolean, resp?: ResponseSchema, error?: apiErrorType]>
 
 
-
 export const fetchProjectDetails = async (id: string = ""): apiResponse<ProjectRootType> => {
-  if(!id){
+  if (!id) {
     const [responseOk, project] = (await fetchInitProject());
-    if(responseOk){
+    if (responseOk) {
       id = project.id;
     }
   }
   const response = await fetch(PROJECT_URL(id))
 
   //workaround: inconsistent api error responses
-  if(response.status !== 200){
+  if (response.status !== 200) {
     const body = await response.text();
-    try{
+    try {
       return [false, {}, await JSON.parse(body)]
-    }catch(e){
+    } catch (e) {
       console.error(e);
       return [false, {}, {error: 0, message: body}]
     }
@@ -36,7 +35,7 @@ export const fetchProjectDetails = async (id: string = ""): apiResponse<ProjectR
   return [response.ok, await response.json()];
 }
 
-export const fetchInitProject = async(): apiResponse<ProjectInitType> => {
+export const fetchInitProject = async (): apiResponse<ProjectInitType> => {
   const response = await fetch(INIT_PROJECT_URL)
-  return [response.ok, response.ok ? (await response.json()): {}];
+  return [response.ok, response.ok ? (await response.json()) : {}];
 }
