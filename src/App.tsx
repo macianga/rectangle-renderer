@@ -13,7 +13,7 @@ function App() {
     setProject(await fetchProjectDetails(projectIdInput));
   }
 
-  const getBoundingBoxRect = (rect: RectangleType) => {
+  const getBoundingBoxComponent = (rect: RectangleType) => {
     const boundingBox = getBoundingBox(rect);
     return (
       <rect
@@ -21,7 +21,7 @@ function App() {
         y={boundingBox.y - boundingBox.height / 2}
         width={boundingBox.width}
         height={boundingBox.height}
-        stroke="blue"
+        stroke={boundingBox.color}
         fillOpacity="0"
         transform={`rotate(${boundingBox.rotation} ${boundingBox.x} ${boundingBox.y})`}
       />
@@ -74,7 +74,7 @@ function App() {
                         ry={3}
                         style={{fill: getContrastColor(rect.color)}}
                       />
-                      {getBoundingBoxRect(rect)}
+                      {getBoundingBoxComponent(rect)}
                       <text
                         x={rect.x + 5}
                         y={rect.y - 5}
