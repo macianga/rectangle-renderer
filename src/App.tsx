@@ -1,9 +1,9 @@
 import './App.css'
 import {useEffect, useState} from "react";
 import {fetchInitProject, fetchProjectDetails} from "./utils/apiHelpers";
-import {ProjectRootType} from "./utils/types";
-import React, { Fragment } from 'react';
-import {getContrastColor} from "./utils/utils";
+import {ProjectRootType, RectangleType} from "./utils/types";
+import React, {Fragment} from 'react';
+import {getBoundingBox, getContrastColor} from "./utils/utils";
 
 function App() {
   const [projectIdInput, setProjectIdInput] = useState("")
@@ -12,6 +12,22 @@ function App() {
   const buttonClicked = async () => {
     setProject(await fetchProjectDetails(projectIdInput));
   }
+
+  const getBoundingBoxRect = (rect: RectangleType) => {
+    const boundingBox = getBoundingBox(rect);
+    return (
+      <rect
+        x={boundingBox.x - boundingBox.width / 2}
+        y={boundingBox.y - boundingBox.height / 2}
+        width={boundingBox.width}
+        height={boundingBox.height}
+        stroke="blue"
+        fillOpacity="0"
+        transform={`rotate(${boundingBox.rotation} ${boundingBox.x} ${boundingBox.y})`}
+      />
+    )
+  }
+
 
   return (
     <div className="main-content">
@@ -58,6 +74,7 @@ function App() {
                         ry={3}
                         style={{fill: getContrastColor(rect.color)}}
                       />
+                      {getBoundingBoxRect(rect)}
                       <text
                         x={rect.x + 5}
                         y={rect.y - 5}
@@ -67,7 +84,6 @@ function App() {
                       </text>
                     </Fragment>
                   )
-
                 })
               }
             </svg>
