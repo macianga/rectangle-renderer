@@ -1,5 +1,5 @@
-import {Rectangle} from "./apiHelpers";
+import {RectangleType} from "./types";
 
-export const getBoundingBox = (rect: Rectangle)=>{
+export const getBoundingBox = (rect: RectangleType)=>{
 
 }

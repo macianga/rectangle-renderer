@@ -1,17 +1,23 @@
-export type ProjectRoot = {
+export type ProjectRootType = {
   id: string;
-  project: Project;
+  project: ProjectType;
 }
 
-type Project = {
+export type ProjectType = {
   id: string;
   name: string;
   width: number;
   height: number;
-  items?: (RectangleEntity)[] | null;
+  items?: (RectangleType)[] | null;
 }
 
-type RectangleEntity = {
+export type ProjectInitType = {
+  id: string;
+  name: string;
+  modified: number;
+}
+
+export type RectangleType = {
   id: string;
   color: string;
   rotation: number;
@@ -20,5 +26,3 @@ type RectangleEntity = {
   width: number;
   height: number;
 }
-
-export type Rectangle = RectangleEntity
