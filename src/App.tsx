@@ -54,8 +54,8 @@ function App() {
                       <ellipse
                         cx={rect.x}
                         cy={rect.y}
-                        rx={5}
-                        ry={5}
+                        rx={3}
+                        ry={3}
                         style={{fill: getContrastColor(rect.color)}}
                       />
                       <text
