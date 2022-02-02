@@ -77,7 +77,7 @@ function App() {
               {
                 project.project.items?.map((rect) => {
                   return (
-                    <Fragment key={rect.id}>
+                    <Fragment key={rect.id + rect.width + rect.height}>
                       <rect
                         x={rect.x - rect.width / 2}
                         y={rect.y - rect.height / 2}
