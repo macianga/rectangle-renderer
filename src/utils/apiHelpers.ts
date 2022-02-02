@@ -21,7 +21,7 @@ export const fetchProjectDetails = async (id: string = ""): apiResponse<ProjectR
   }
   const response = await fetch(PROJECT_URL(id))
 
-  //workaround: inconsistent api error responses
+  //handle api errors
   if (response.status !== 200) {
     const body = await response.text();
     try {
