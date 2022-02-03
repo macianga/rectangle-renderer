@@ -1,5 +1,6 @@
 import {ProjectInitType, ProjectRootType} from "./types";
 
+// TODO move to separate file if there are more paths to be added
 const BASE_URL = "https://recruitment01.vercel.app/api";
 export const INIT_PROJECT_URL = `${BASE_URL}/init`
 export const PROJECT_URL = (id: string) => `${BASE_URL}/project/${id}`

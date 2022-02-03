@@ -2,15 +2,17 @@ import './App.css'
 import React, {Fragment, useState} from "react";
 import {fetchProjectDetails} from "./utils/apiHelpers";
 import {ProjectRootType, RectangleType} from "./utils/types";
-import {getBoundingBox, getContrastColor, validateProjectData} from "./utils/utils";
+import {getBoundingBox, getContrastColor} from "./utils/utils";
+import {validateProjectData} from "./utils/validateProjectData";
 
-function App() {
+function MainPage() {
   const [projectIdInput, setProjectIdInput] = useState("")
   const [project, setProject] = useState<ProjectRootType>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("")
 
   const fetchProject = async () => {
+    //TODO move to hook if this generic behavior is needed in another component
     setIsLoading(true);
     const [responseOk, response] = await fetchProjectDetails(projectIdInput);
 
@@ -113,4 +115,4 @@ function App() {
   )
 }
 
-export default App
+export default MainPage
