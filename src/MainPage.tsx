@@ -67,7 +67,7 @@ function MainPage() {
       </div>
       <hr/>
       {isLoading && <div className="loader"/>}
-      {!isLoading && error && <h3 className="center">Cos poszlo nie tak: <b>{error}</b></h3>}
+      {!isLoading && error && <h3 className="center">There was en error: <b>{error}</b></h3>}
       {
         project?.project && !isLoading && !error && (
           <div>
