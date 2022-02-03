@@ -14,11 +14,9 @@ type apiResponseType<ResponseSchema> = [responseOk: boolean, resp: jsonResponseW
 
 const getResponseError = async (request: Response,
                                 defaultErrorMessage = "An error has occurred"): Promise<string> => {
-  const body = await request.text();
   try {
-    return await JSON.parse(body).message
+    return (await request.json()).message
   } catch (e) {
-    console.error(e);
     return defaultErrorMessage;
   }
 }
@@ -43,7 +41,6 @@ export const request = async <JSONSchema>(url: string): Promise<apiResponseType<
   const error = await getResponseError(response)
   return [response.ok, {response: <JSONSchema>{}, error: error}]
 }
-
 
 export const fetchProjectDetails = async (id: string = ""): Promise<apiResponseType<ProjectRootType>> => {
   if (!id) {
