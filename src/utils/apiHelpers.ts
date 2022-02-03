@@ -1,41 +1,56 @@
 import {ProjectInitType, ProjectRootType} from "./types";
 
 const BASE_URL = "https://recruitment01.vercel.app/api";
-const INIT_PROJECT_URL = `${BASE_URL}/init`
-const PROJECT_URL = (id: string) => `${BASE_URL}/project/${id}`
+export const INIT_PROJECT_URL = `${BASE_URL}/init`
+export const PROJECT_URL = (id: string) => `${BASE_URL}/project/${id}`
 
-type apiErrorType = {
-  error: number,
-  message: string,
+type jsonResponseWithErrorType<Type> = {
+  response: Type,
+  error: string,
 }
 
-type apiResponse<ResponseSchema> = Promise<[responseOk: boolean, resp?: ResponseSchema, error?: apiErrorType]>
+type apiResponseType<ResponseSchema> = [responseOk: boolean, resp: jsonResponseWithErrorType<ResponseSchema>]
 
 
-export const fetchProjectDetails = async (id: string = ""): apiResponse<ProjectRootType> => {
+const getResponseError = async (request: Response,
+                                defaultErrorMessage = "An error has occurred"): Promise<string> => {
+  const body = await request.text();
+  try {
+    return await JSON.parse(body).message
+  } catch (e) {
+    console.error(e);
+    return defaultErrorMessage;
+  }
+}
+
+const getJson = async <SchemaType>(response: Response): Promise<SchemaType> => {
+  // The server may return null or malformed json
+  try {
+    return await response.json()
+  } catch {
+    return <SchemaType>{}
+  }
+}
+
+export const request = async <JSONSchema>(url: string): Promise<apiResponseType<JSONSchema>> => {
+  const response = await fetch(url);
+
+  if (response.status === 200 && response.ok) {
+    const json = await getJson<JSONSchema>(response);
+    return [response.ok, {response: json, error: ""}]
+  }
+
+  const error = await getResponseError(response)
+  return [response.ok, {response: <JSONSchema>{}, error: error}]
+}
+
+
+export const fetchProjectDetails = async (id: string = ""): Promise<apiResponseType<ProjectRootType>> => {
   if (!id) {
-    const [responseOk, project] = (await fetchInitProject());
-    if (responseOk) {
-      id = project.id;
-    }
+    const [responseOk, project] = (await request<ProjectInitType>(INIT_PROJECT_URL));
+    if (!responseOk)
+      return [responseOk, project]
+    id = project.response.id;
   }
-  const response = await fetch(PROJECT_URL(id))
-
-  //handle api errors
-  if (response.status !== 200) {
-    const body = await response.text();
-    try {
-      return [false, {}, await JSON.parse(body)]
-    } catch (e) {
-      console.error(e);
-      return [false, {}, {error: 0, message: body}]
-    }
-  }
-
-  return [response.ok, await response.json()];
-}
-
-export const fetchInitProject = async (): apiResponse<ProjectInitType> => {
-  const response = await fetch(INIT_PROJECT_URL)
-  return [response.ok, response.ok ? (await response.json()) : {}];
+  return await request<ProjectRootType>(PROJECT_URL(id))
 }

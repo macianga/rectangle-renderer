@@ -12,19 +12,19 @@ function App() {
 
   const fetchProject = async () => {
     setIsLoading(true);
-    const [responseOk, projectData, error] = await fetchProjectDetails(projectIdInput);
+    const [responseOk, response] = await fetchProjectDetails(projectIdInput);
 
     if (responseOk) {
-      const isDataValid = validateProjectData(projectData);
+      const isDataValid = validateProjectData(response.response);
       if (!isDataValid) {
         setError("Invalid project data.")
         setIsLoading(false);
         return;
       }
-      setProject(projectData);
+      setProject(response.response);
       setError("")
     } else {
-      setError(error.message)
+      setError(response.error);
     }
     setIsLoading(false);
   }
